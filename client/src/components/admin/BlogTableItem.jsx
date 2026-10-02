@@ -1,3 +1,5 @@
+git add .
+
 import toast from "react-hot-toast";
 import { assets } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
