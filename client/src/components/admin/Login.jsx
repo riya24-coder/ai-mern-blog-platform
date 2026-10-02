@@ -13,21 +13,25 @@ const Login = () => {
 
     try {
       const { data } = await axios.post(
-    `${import.meta.env.VITE_API_BASE_URL}/api/admin/login`,
-    {
-        email,
-        password,
-      });
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       if (data.success) {
         setToken(data.token);
         localStorage.setItem("token", data.token);
+
         axios.defaults.headers.common["Authorization"] = data.token;
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(
+        error.response?.data?.message || error.message || "Login failed"
+      );
     }
   };
 
@@ -39,6 +43,7 @@ const Login = () => {
             <h1 className="text-3xl font-bold">
               <span className="text-primary">Admin</span> Login
             </h1>
+
             <p className="font-light">
               Enter your credentials to access the admin panel
             </p>
@@ -49,7 +54,8 @@ const Login = () => {
             className="mt-6 w-full sm:max-w-md text-gray-600"
           >
             <div className="flex flex-col">
-              <label> Email</label>
+              <label>Email</label>
+
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -61,7 +67,8 @@ const Login = () => {
             </div>
 
             <div className="flex flex-col">
-              <label> Password</label>
+              <label>Password</label>
+
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
